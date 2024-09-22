@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>K32 - @yield('tytul')</title>
+        <title>K32 - @yield('tytul', "WSB")</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -51,7 +51,7 @@
                                 <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">@yield('podtytul')</h2>
 
                                 <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    @yield('tresc')
+                                    @yield('tresc', "nie zawiera żadnej treści")
                                 </p>
                             </div>
 

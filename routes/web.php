@@ -17,7 +17,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/kontakt', function () {
-    return view('kontakt');
+    $zadania = [
+        'Zadanie 1',
+        'Zadanie 2',
+        'Zadanie 3'
+    ];
+    return view('kontakt', [ 'zadania' => $zadania ]);
 });
 
 Route::get('/onas', function () {
