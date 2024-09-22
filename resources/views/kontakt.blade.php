@@ -1,13 +1,13 @@
 @extends('szablon')
 @section('tytul')
-    Start
+    Kontakt
 @endsection
 
 @section('podtytul')
-    Strona startowa
+    Strona kontaktowa
 @endsection
 
 @section('tresc')
-    <p>Przykładowa treść dla startu</p>
+    <p>Przykładowa treść dla kontaktu</p>
     <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum omnis suscipit error dignissimos, laudantium doloribus dolorum. Laboriosam illo nihil tempora sunt, voluptatem a labore tempore temporibus esse fuga voluptatibus voluptate?</p>
 @endsection
