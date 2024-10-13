@@ -1,4 +1,4 @@
-@extends('szablon')
+@extends('szablon.szablon')
 @section('tytul', 'Kontakt')
 @section('podtytul', 'Strona kontaktowa')
 @section('tresc')

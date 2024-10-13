@@ -16,11 +16,37 @@
         </style>
     </head>
     <body class="antialiased">
+        
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 selection:bg-red-500 selection:text-white">
             @if (Route::has('login'))
                 <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                     @auth
-                        
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                        <div class="container-fluid">
+                          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                          </button>
+                          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                              <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Zalogowałeś się jako: <b>{{ Auth::user()->name }}</b>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end text-center">
+                                  <li><a class="dropdown-item" href="{{route('profile.edit')}}">Profil</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li>
+                                    <form action="{{route('logout')}}" method="post">
+                                        @csrf
+                                        <button type="submit">Wyloguj</button>
+                                    </form>
+                                </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </nav>
                     @else
                         <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Zaloguj</a>
 
