@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OgolneController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,21 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('ogolne.welcome');
-})->name('start');
+})->name('start'); */
+Route::get('/',[OgolneController::class, 'start'])->name('start');
 
-Route::get('/onas', function () {
+/* Route::get('/onas', function () {
     return view('ogolne.onas');
-})->name('onas');
-Route::get('/kontakt', function () {
+})->name('onas'); */
+Route::get('/onas',[OgolneController::class, 'onas'])->name('onas');
+/* Route::get('/kontakt', function () {
     $zadania = [
         'Zadanie 1',
         'Zadanie 2',
         'Zadanie 3'
     ];
     return view('ogolne.kontakt', ['zadania' => $zadania]);
-})->name('kontakt');
+})->name('kontakt'); */
+Route::get('/kontakt',[OgolneController::class, 'kontakt'])->name('kontakt');
 
 Route::get('/dashboard', function () {
     //return view('dashboard');
