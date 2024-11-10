@@ -12,7 +12,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posty = Post::all();
+        //dd($posty);
+        return view('post.lista', compact('posty'));
+        
+        //return view('post.lista', ['posty', $posty]);
+        //return view('post.lista')->with('posty',$posty);
     }
 
     /**
@@ -20,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('post.dodaj');
     }
 
     /**
@@ -28,7 +33,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request;
+        $post= new Post();
+/*         $post->tytul = $request['tytul'];
+        $post->autor = request('autor');
+        $post->email = request('email');
+        $post->tresc = request('tresc');
+        $post->save(); */
+        $post->create($request->all());
+        return redirect()->route('post.index');
     }
 
     /**
@@ -36,7 +49,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        //dd($post);
+        return view('post.pokaz', compact('post'));
     }
 
     /**
@@ -44,7 +58,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return $post;
+        return view('post.edytuj',compact('post'));
     }
 
     /**
@@ -52,7 +66,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        //dd($request,$post);
+/*         $post->tytul = $request['tytul'];
+        $post->autor = request('autor');
+        $post->email = request('email');
+        $post->tresc = request('tresc');
+        $post->save(); */
+        $post->update($request->all());
+        return redirect()->route('post.index');
     }
 
     /**
@@ -60,6 +81,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('post.index');
     }
 }
