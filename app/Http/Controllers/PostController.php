@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,8 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    //public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
         //return $request;
         $post= new Post();
@@ -40,8 +42,14 @@ class PostController extends Controller
         $post->email = request('email');
         $post->tresc = request('tresc');
         $post->save(); */
+       /*  $request->validate([
+            'tytul' => 'required|min:3|max:200',
+            'autor' => ['required', 'min:4', 'max:100'],
+            'email' => ['required', 'email:rfc,dns'],
+            'tresc' => ['required', 'min:5']
+        ]); */
         $post->create($request->all());
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('message',"Dodano poprawnie post");
     }
 
     /**
@@ -64,7 +72,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostStoreRequest $request, Post $post)
     {
         //dd($request,$post);
 /*         $post->tytul = $request['tytul'];
@@ -73,7 +81,7 @@ class PostController extends Controller
         $post->tresc = request('tresc');
         $post->save(); */
         $post->update($request->all());
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('message',"Zmieniono poprawnie post");
     }
 
     /**
@@ -82,6 +90,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->with('message',"Usunieto poprawnie post")->with('class', 'danger');
     }
 }
