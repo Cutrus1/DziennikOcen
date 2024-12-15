@@ -17,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posty = Post::all();
+        $posty = Post::paginate(10);
         //dd($posty);
         return view('post.lista', compact('posty'));
         
