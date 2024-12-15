@@ -17,8 +17,10 @@
               Posty
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Lista postów</a></li>
+              <li><a class="dropdown-item" href="{{route('post.index')}}">Lista postów</a></li>
+              @auth
               <li><a class="dropdown-item" href="{{route('post.create')}}">Dodaj posta</a></li>
+              @endauth
             </ul>
           </li>
         </ul>

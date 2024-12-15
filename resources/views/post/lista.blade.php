@@ -2,14 +2,19 @@
 @section('tytul','Lista postów')
 @section('podtytul', 'Lista postów')
 @section('tresc')
-<a href="{{route('post.create')}}"><button class="btn btn-primary form-btn m-2" type="button">Dodaj post</button></a>
+@auth
+<a href="{{route('post.create')}}"><button class="btn btn-primary form-btn m-2" type="button">Dodaj post</button></a>    
+@endauth
+
 <table class="table table-striped">
     <thead>
         <th scope="col">Lp</th>
         <th scope="col">Tytuł</th>
         <th scope="col">Autor</th>
         <th scope="col">Data utworzenia</th>
-        <th scope="col">Akcja</th>
+        @auth
+        <th scope="col">Akcja</th>            
+        @endauth
     </thead>
     <tbody>
         @isset($posty)
@@ -21,6 +26,7 @@
                     <td><a href="{{route('post.show',$post->id)}}">{{$post->tytul}}</a></td>
                     <td>{{$post->autor}}</td>
                     <td>{{date('j F Y',strtotime($post->created_at))}}</td>
+                    @auth
                     <td class="d-flex">
                         <a href="{{route('post.edit',$post->id)}}">
                             <button type="button" class="btn btn-success form-btn m-1">E</button>
@@ -30,7 +36,9 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger form-btn m-1">X</button>
                         </form>
-                    </td>
+                    </td>                        
+                    @endauth
+
                 </tr>
                 @endforeach 
             @else
