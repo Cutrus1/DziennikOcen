@@ -9,11 +9,11 @@
     </div>
     <div class="for-group">
         <label for="autor">Autor</label>
-        <input type="text" class="form-control" name="autor" id="autor" value="{{$post->autor}}" disabled>
+        <input type="text" class="form-control" name="autor" id="autor" value="{{$post->user->name}}" disabled>
     </div>
     <div class="for-group">
         <label for="email">Email</label>
-        <input type="email" class="form-control" name="email" id="email" value="{{$post->email}}" disabled>
+        <input type="email" class="form-control" name="email" id="email" value="{{$post->user->email}}" disabled>
     </div><div class="for-group">
         <label for="tresc">Treść</label>
         <textarea class="form-control" name="tresc" id="tresc" cols="4" disabled>{{$post->tresc}}</textarea>

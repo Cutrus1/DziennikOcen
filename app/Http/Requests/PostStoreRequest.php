@@ -23,8 +23,8 @@ class PostStoreRequest extends FormRequest
     {
         return [
             'tytul' => 'required|min:3|max:200',
-            'autor' => ['required', 'min:4', 'max:100'],
-            'email' => ['required', 'email:rfc,dns'],
+/*             'autor' => ['required', 'min:4', 'max:100'],
+            'email' => ['required', 'email:rfc,dns'], */
             'tresc' => ['required', 'min:5']
         ];
     }

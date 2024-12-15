@@ -11,8 +11,17 @@ class Post extends Model
     protected $table = "posty";
     protected $fillable = [
         'tytul',
-        'autor',
-        'email',
+/*         'autor',
+        'email', */
+        'user_id',
         'tresc'
     ];
+
+    // Definicja relacji do modelu User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+        // można też dodać klucz obcy, ale skoro jest on w formie '{model}_id' to można to pominąć
+        // return $this->belongsTo(User::class,'user_id');
+    }
 }

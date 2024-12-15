@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostStoreRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -52,6 +53,8 @@ class PostController extends Controller
             'email' => ['required', 'email:rfc,dns'],
             'tresc' => ['required', 'min:5']
         ]); */
+        $request->merge(['user_id' => Auth::user()->id]);
+        //$post->user_id = Auth::user()->id; //to nie działa
         $post->create($request->all());
         return redirect()->route('post.index')->with('message',"Dodano poprawnie post");
     }
@@ -84,6 +87,8 @@ class PostController extends Controller
         $post->email = request('email');
         $post->tresc = request('tresc');
         $post->save(); */
+        //$request->merge(['user_id' => Auth::user()->id]); //to działa
+        $post->user_id = Auth::user()->id;
         $post->update($request->all());
         return redirect()->route('post.index')->with('message',"Zmieniono poprawnie post");
     }
