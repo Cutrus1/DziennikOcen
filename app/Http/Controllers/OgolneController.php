@@ -10,17 +10,15 @@ class OgolneController extends Controller
     {
         return view('ogolne.welcome');
     }
+
     public function onas()
     {
         return view('ogolne.onas');
     }
+
     public function kontakt()
     {
-        $zadania = [
-        'Zadanie 1',
-        'Zadanie 2',
-        'Zadanie 3'
-    ];
-    return view('ogolne.kontakt', ['zadania' => $zadania]);
+        $zadania = ['Zadanie 1', 'Zadanie 2', 'Zadanie 3'];
+        return view('ogolne.kontakt', compact('zadania'));
     }
 }

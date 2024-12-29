@@ -3,49 +3,51 @@
 use App\Http\Controllers\OgolneController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GradeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+// Strony ogólne
+Route::get('/', [OgolneController::class, 'start'])->name('start');
+Route::get('/onas', [OgolneController::class, 'onas'])->name('onas');
+Route::get('/kontakt', [OgolneController::class, 'kontakt'])->name('kontakt');
 
-/* Route::get('/', function () {
-    return view('ogolne.welcome');
-})->name('start'); */
-Route::get('/',[OgolneController::class, 'start'])->name('start');
+// Middleware dla uwierzytelnionych użytkowników
+Route::middleware(['auth'])->group(function () {
+    // Trasa dostępna dla wszystkich zalogowanych użytkowników
+    Route::get('/grades', [GradeController::class, 'index'])->name('grades.index');
 
-/* Route::get('/onas', function () {
-    return view('ogolne.onas');
-})->name('onas'); */
-Route::get('/onas',[OgolneController::class, 'onas'])->name('onas');
-/* Route::get('/kontakt', function () {
-    $zadania = [
-        'Zadanie 1',
-        'Zadanie 2',
-        'Zadanie 3'
-    ];
-    return view('ogolne.kontakt', ['zadania' => $zadania]);
-})->name('kontakt'); */
-Route::get('/kontakt',[OgolneController::class, 'kontakt'])->name('kontakt');
+    // Trasy dla nauczycieli i administratorów
+    Route::middleware(['role:teacher,admin'])->group(function () {
+        Route::get('/grades/create', [GradeController::class, 'create'])->name('grades.create');
+        Route::post('/grades', [GradeController::class, 'store'])->name('grades.store');
+        Route::get('/grades/{grade}/edit', [GradeController::class, 'edit'])->name('grades.edit');
+        Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('grades.update');
+        Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('grades.destroy');
+    });
 
-Route::get('/dashboard', function () {
-    //return view('dashboard');
-    return redirect()->route('start');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    // Trasy dostępne tylko dla administratorów
+    Route::middleware(['role:admin'])->group(function () {
+        Route::resource('users', AdminController::class);
+        Route::resource('subjects', SubjectController::class);
+    });
 
-Route::middleware('auth')->group(function () {
+    // Trasy dla postów (dostępne dla zalogowanych użytkowników)
+    Route::resource('post', PostController::class);
+
+    // Powrót na stronę główną
+    Route::get('/dashboard', function () {
+        return redirect()->route('start');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
+    // Trasy dla profilu użytkownika
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Trasy dla uwierzytelniania
 require __DIR__.'/auth.php';
 
-Route::resource('post',PostController::class);
+Route::resource('post', PostController::class);

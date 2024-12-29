@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -42,4 +43,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+        /**Aktualizacja modelu */
+        public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+    /**Relacja z ocenami */
+        public function grades()
+    {
+        return $this->hasMany(Grade::class, 'student_id');
+    }
+
+    public function givenGrades()
+    {
+        return $this->hasMany(Grade::class, 'teacher_id');
+    }
 }
+
