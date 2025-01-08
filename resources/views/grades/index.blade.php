@@ -13,21 +13,79 @@
                     <th>Lp</th>
                     <th>Uczeń</th>
                     <th>Przedmiot</th>
-                    <th>Ocena</th>
+                    <th>Oceny</th>
+                    <th>Średnia z przedmiotu</th>
                     <th>Nauczyciel</th>
-                    <th>Data wystawienia</th>
+                    <th>Średnia z wszystkich przedmiotów</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($grades as $index => $grade)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $grade->student->name }}</td>
-                        <td>{{ $grade->subject }}</td>
-                        <td>{{ $grade->grade }}</td>
-                        <td>{{ $grade->teacher->name }}</td>
-                        <td>{{ $grade->created_at->format('Y-m-d') }}</td>
-                    </tr>
+                @php
+                    $studentSubjects = [];
+                    $colors = [
+                        1 => 'red', 
+                        2 => 'blue', 
+                        3 => 'purple', 
+                        4 => 'orange', 
+                        5 => 'pink', 
+                        6 => 'green', 
+                    ];
+                @endphp
+
+                <!-- Grupowanie ocen -->
+                @foreach ($grades as $grade)
+                    @php
+                        $studentSubjects[$grade->student->name][$grade->subject]['grades'][] = $grade->grade;
+                        $studentSubjects[$grade->student->name][$grade->subject]['teacher'] = $grade->teacher->name;
+                    @endphp
+                @endforeach
+
+                @php $lp = 1; @endphp
+                <!-- Wyświetlanie danych -->
+                @foreach ($studentSubjects as $studentName => $subjects)
+                    @php
+                        $allGrades = [];
+                    @endphp
+                    @foreach ($subjects as $subject => $details)
+                        @php
+                            $allGrades = array_merge($allGrades, $details['grades']);
+                        @endphp
+                        <tr>
+                            <td>{{ $lp++ }}</td>
+                            <td>{{ $studentName }}</td>
+                            <td>{{ $subject }}</td>
+                            <td>
+                                @foreach ($details['grades'] as $grade)
+                                    @php
+                                        $color = $colors[$grade] ?? 'black';
+                                    @endphp
+                                    <span style="
+                                        display: inline-block;
+                                        width: 30px;
+                                        height: 30px;
+                                        text-align: center;
+                                        line-height: 30px;
+                                        border-radius: 5px;
+                                        font-weight: bold;
+                                        margin: 2px;
+                                        color: white;
+                                        background-color: {{ $color }};
+                                    ">
+                                        {{ $grade }}
+                                    </span>
+                                @endforeach
+                            </td>
+                            <td>
+                                {{ number_format(array_sum($details['grades']) / count($details['grades']), 2) }}
+                            </td>
+                            <td>{{ $details['teacher'] }}</td>
+                            @if ($loop->first)
+                                <td rowspan="{{ count($subjects) }}" class="align-middle">
+                                    {{ number_format(array_sum($allGrades) / count($allGrades), 2) }}
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
                 @endforeach
             </tbody>
         </table>

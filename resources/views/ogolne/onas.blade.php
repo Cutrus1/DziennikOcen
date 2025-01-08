@@ -4,10 +4,10 @@
 @endsection
 
 @section('podtytul')
-    Strona o nas
+O nas
 @endsection
 
 @section('tresc')
-    <p>Przykładowa treść dla o nas</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum omnis suscipit error dignissimos, laudantium doloribus dolorum. Laboriosam illo nihil tempora sunt, voluptatem a labore tempore temporibus esse fuga voluptatibus voluptate?</p>
+    <p>Witaj w DziennikuOcen! Jesteśmy zespołem pasjonatów technologii i edukacji, którzy postanowili uprościć sposób zarządzania ocenami w szkołach. Naszym celem jest dostarczenie intuicyjnego narzędzia, które łączy przejrzystość i funkcjonalność, wzorowanego na popularnym dzienniku Librus.</p>
+    <p>Wierzymy, że proste rozwiązania są kluczem do efektywnej nauki. Dziękujemy, że jesteś z nami!</p>
 @endsection

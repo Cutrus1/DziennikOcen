@@ -18,7 +18,7 @@ class OgolneController extends Controller
 
     public function kontakt()
     {
-        $zadania = ['Zadanie 1', 'Zadanie 2', 'Zadanie 3'];
+        $zadania = ['1. Odpowiadanie na zgłoszenia techniczne i wsparcie użytkowników.', '2. Rozwój aplikacji i wprowadzanie nowych funkcji, zgodnie z potrzebami użytkowników.', '3. Dbałość o bezpieczeństwo i przejrzystość danych w systemie.'];
         return view('ogolne.kontakt', compact('zadania'));
     }
 }

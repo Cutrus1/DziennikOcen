@@ -4,10 +4,10 @@
 @endsection
 
 @section('podtytul')
-    Strona startowa
+    Witamy w aplikacji DziennikOcen!
 @endsection
 
 @section('tresc')
-    <p>Przykładowa treść dla startu</p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum omnis suscipit error dignissimos, laudantium doloribus dolorum. Laboriosam illo nihil tempora sunt, voluptatem a labore tempore temporibus esse fuga voluptatibus voluptate?</p>
+    <p>Aplikacja DziennikOcen umożliwia przejrzyste zarządzanie ocenami uczniów w stylu dziennika Librus. Dzięki naszym funkcjom możesz łatwo śledzić postępy uczniów, obliczać średnie ocen dla każdego przedmiotu, a także uzyskać ogólną średnią ocen dla wszystkich uczniów.</p>
+    <p>Rozpocznij korzystanie z aplikacji i uprość zarządzanie ocenami!</p>
 @endsection

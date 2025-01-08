@@ -4,24 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Grade;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Subject;
+use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
     // Widok ocen dla ucznia, nauczyciela lub administratora
     public function index()
     {
-        // Jeśli użytkownik jest nauczycielem, pokaż wystawione przez niego oceny
         if (auth()->user()->role === 'teacher') {
             $grades = Grade::where('teacher_id', auth()->id())->get();
-        } 
-        // Jeśli użytkownik jest uczniem, pokaż jego oceny
-        elseif (auth()->user()->role === 'student') {
+        } elseif (auth()->user()->role === 'student') {
             $grades = Grade::where('student_id', auth()->id())->get();
-        } 
-        // Jeśli użytkownik jest administratorem, pokaż wszystkie oceny
-        elseif (auth()->user()->role === 'admin') {
+        } elseif (auth()->user()->role === 'admin') {
             $grades = Grade::all();
         } else {
             abort(403, 'Nieautoryzowany dostęp.');
@@ -34,7 +29,7 @@ class GradeController extends Controller
     public function create()
     {
         $students = User::where('role', 'student')->get();
-        $subjects = Subject::all(); // Pobranie wszystkich przedmiotów
+        $subjects = Subject::all();
         return view('grades.create', compact('students', 'subjects'));
     }
 
@@ -46,15 +41,14 @@ class GradeController extends Controller
             'subject' => 'required|string',
             'grade' => 'required|string|in:1,2,3,4,5,6',
         ]);
-    
+
         Grade::create([
             'student_id' => $request->student_id,
             'teacher_id' => auth()->id(),
             'subject' => $request->subject,
             'grade' => $request->grade,
         ]);
-    
-        // Przekierowanie na /grades/create z komunikatem o sukcesie
+
         return redirect()->route('grades.create')->with('success', 'Ocena została pomyślnie dodana.');
     }
 
@@ -85,5 +79,32 @@ class GradeController extends Controller
     {
         $grade->delete();
         return redirect()->route('grades.index')->with('success', 'Ocena została usunięta.');
+    }
+
+    // Widok dla ucznia
+    public function studentView()
+    {
+        $studentId = auth()->id();
+        $grades = Grade::where('student_id', $studentId)->get();
+        $subjects = Subject::all();
+
+        $subjectGrades = [];
+        foreach ($subjects as $subject) {
+            $subjectGrades[$subject->name] = $grades->where('subject', $subject->name);
+        }
+
+        $overallAverage = $grades->avg('grade');
+
+        return view('grades.student_view', compact('subjectGrades', 'overallAverage'));
+    }
+
+    // Widok dla nauczyciela/administratora
+    public function teacherAdminView()
+    {
+        $grades = Grade::all();
+        $students = User::where('role', 'student')->get();
+        $subjects = Subject::all();
+
+        return view('grades.teacher_admin_view', compact('grades', 'students', 'subjects'));
     }
 }
