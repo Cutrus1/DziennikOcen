@@ -15,13 +15,42 @@ return new class extends Migration
     public function up(): void
     {
         // Sprawdzenie istnienia użytkownika z ID = 1 i dodanie, jeśli nie istnieje
-        if (!DB::table('users')->where('id', 1)->exists()) {
+        // Dodanie użytkownika 'admin'
+        if (!DB::table('users')->where('email', 'admin@wp.pl')->exists()) {
             DB::table('users')->insert([
-                'id' => 1,
-                'name' => 'test',
-                'email' => 'admin@test.pl',
+                'name' => 'Admin ',
+                'email' => 'admin@wp.pl',
+                'role' => 'admin',
                 'email_verified_at' => now(),
-                'password' => Hash::make('zaq1@WSX'),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Dodanie użytkownika 'teacher'
+        if (!DB::table('users')->where('email', 'teacher@wp.pl')->exists()) {
+            DB::table('users')->insert([
+                'name' => 'Teacher User',
+                'email' => 'teacher@wp.pl',
+                'role' => 'teacher',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
+        // Dodanie użytkownika 'student'
+        if (!DB::table('users')->where('email', 'student@wp.pl')->exists()) {
+            DB::table('users')->insert([
+                'name' => 'Student User',
+                'email' => 'student@wp.pl',
+                'role' => 'student',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),

@@ -16,7 +16,6 @@
                     <th>Oceny</th>
                     <th>Średnia z przedmiotu</th>
                     <th>Nauczyciel</th>
-                    <th>Średnia z wszystkich przedmiotów</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,9 +44,13 @@
                 @foreach ($studentSubjects as $studentName => $subjects)
                     @php
                         $allGrades = [];
+                        $subjectAverages = [];
                     @endphp
                     @foreach ($subjects as $subject => $details)
                         @php
+                            // Obliczanie średniej z danego przedmiotu
+                            $subjectAverage = array_sum($details['grades']) / count($details['grades']);
+                            $subjectAverages[] = $subjectAverage;
                             $allGrades = array_merge($allGrades, $details['grades']);
                         @endphp
                         <tr>
@@ -76,16 +79,19 @@
                                 @endforeach
                             </td>
                             <td>
-                                {{ number_format(array_sum($details['grades']) / count($details['grades']), 2) }}
+                                {{ number_format($subjectAverage, 2) }}
                             </td>
                             <td>{{ $details['teacher'] }}</td>
-                            @if ($loop->first)
-                                <td rowspan="{{ count($subjects) }}" class="align-middle">
-                                    {{ number_format(array_sum($allGrades) / count($allGrades), 2) }}
-                                </td>
-                            @endif
                         </tr>
                     @endforeach
+
+                    <!-- Wyświetlanie średniej z wszystkich przedmiotów w osobnym wierszu -->
+                    <tr>
+                        <td colspan="6" class="text-center font-weight-bold bg-light">
+                            Średnia z wszystkich przedmiotów: 
+                            {{ number_format(array_sum($subjectAverages) / count($subjectAverages), 2) }}
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
